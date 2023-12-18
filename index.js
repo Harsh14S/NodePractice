@@ -1,15 +1,18 @@
-const express = require("express");
+import app from "./src/app.js";
+import config from "./src/config/config.js";
+import { connectDB } from "./src/db/index.js";
 
-const app = express();
-const port = 3000;
+const port = config.PORT || 8000;
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-app.get("/home", (req, res) => {
-  res.send("Hello World!, I am Home");
-});
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+connectDB()
+  .then(() => {
+    app.on("error", (error) => {
+      console.log("Listened error while connecting DB: ", error);
+    });
+    app.listen(port, () => {
+      console.log("Server is running on ", port);
+    });
+  })
+  .catch((error) => {
+    console.log("MONGO db connection failed !!! ", error);
+  });

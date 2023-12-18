@@ -3,25 +3,22 @@
   "version": "1.0.0",
   "description": "Node Practice",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Harsh14S/NodePractice.git"
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "Node"
+    "Node",
+    "Practice"
   ],
-  "author": "Harsh Savaliya",
+  "author": "Harsh",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Harsh14S/NodePractice/issues"
-  },
-  "homepage": "https://github.com/Harsh14S/NodePractice#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongoose": "^8.0.3",
+    "nodemon": "^3.0.2"
   }
 }
