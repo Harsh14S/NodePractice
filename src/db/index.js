@@ -2,7 +2,7 @@ import config from "../config/config.js";
 import mongoose from "mongoose";
 
 export const connectDB = async () => {
-  const mongoLink = `${config.DB_LINK}/${config}`;
+  const mongoLink = `${config.DB_LINK}/${config.DB_NAME}`;
 
   try {
     const connectionInstance = await mongoose.connect(mongoLink);
