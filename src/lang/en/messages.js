@@ -1,4 +1,5 @@
 const MESSAGES = {
+  401: "You are unauthorised",
   9999: "Something went wrong!",
 };
 

@@ -74,4 +74,21 @@ const AdminCreate = async (req, res) => {
   }
 };
 
-export { AdminCreate };
+const AdminLogout = async (req, res) => {
+  //
+  const verifiedUser = req.verifiedUser;
+  try {
+    const updateUser = await User.findByIdAndUpdate(verifiedUser._id, {
+      $set: { token: null },
+    });
+    const findUpdatedUser = await User.findById(updateUser._id).select(
+      "-__v -createdAt -updatedAt"
+    );
+    return RESPONSE.success(res, "Logout successfully", findUpdatedUser);
+  } catch (error) {
+    // sending error response
+    return RESPONSE.error(res, 9999, 500, error);
+  }
+};
+
+export { AdminCreate, AdminLogout };
