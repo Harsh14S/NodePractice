@@ -39,7 +39,7 @@ const UserSchema = new Schema(
       default: null,
     },
   },
-  { timeseries: true }
+  { timestamps: true }
 );
 
 UserSchema.pre("save", async function (next) {
@@ -56,7 +56,9 @@ UserSchema.methods.generateAccessToken = async function () {
       username: this.username,
     },
     config.ACCESS_TOKEN_SECRET,
-    config.ACCESS_TOKEN_EXPIRY
+    {
+      expiresIn: config.ACCESS_TOKEN_EXPIRY,
+    }
   );
 
   this.token = accessToken;
