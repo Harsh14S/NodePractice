@@ -21,7 +21,7 @@ RESPONSE.error = function (res, messageCode, statusCode = 422, error = null) {
   let response = {};
   response.success = false;
   response.message = getMessage(messageCode);
-  statusCode = messageCode ? 500 : statusCode;
+  statusCode = messageCode > 599 ? 500 : statusCode;
   if (error !== null) {
     console.log("error :--> ", error);
   }

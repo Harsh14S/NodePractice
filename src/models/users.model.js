@@ -29,12 +29,11 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
-    role: {
-      type: String,
-      enum: ["admin", "user"],
-      default: "user",
-    },
     token: {
+      type: String,
+      default: null,
+    },
+    passwordResetToken: {
       type: String,
       default: null,
     },
@@ -44,7 +43,7 @@ const UserSchema = new Schema(
 
 UserSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
-    this.password = await bcrypt.hash(this.password, 12);
+    this.password = await bcrypt.hash(this.password, config.PASSWORD_SALT);
   }
   next();
 });
