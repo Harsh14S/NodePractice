@@ -3,9 +3,19 @@ import RESPONSE from "../../helpers/response.js";
 import { User } from "../../models/users.model.js";
 import bcrypt from "bcrypt";
 import { mailTransporter } from "../../helpers/mailHelper.js";
-import { passwordResetTemplate } from "../../views/PasswordResetTemplate/PasswordResetTemplate.js";
 import { tokenGenerator, tokenVerifier } from "../../helpers/tokenGenerator.js";
 import config from "../../config/config.js";
+import Email from "email-templates";
+import path from "path";
+
+const emailTemp = new Email({
+  views: {
+    root: path.resolve("src/views"),
+    options: {
+      extension: "ejs",
+    },
+  },
+});
 
 const SignUp = async (req, res) => {
   // validating the fields
@@ -203,13 +213,18 @@ const RequestForgotPassword = async (req, res) => {
     }
     const link = `${config.URL}/admin/passwordReset?token=${passwordResetToken}`;
 
+    const templates = await emailTemp.renderAll("ForgotPasswordTemplate", {
+      token: findUpdatedUser.passwordResetToken,
+      link: link,
+    });
+
     await mailTransporter
       .sendMail({
         from: config.MAILER_EMAIL, // sender address
         to: email,
         subject: "Mail Testing", // Subject line
         text: "Password reset link", // plain text body
-        html: passwordResetTemplate(link), // html body
+        html: templates.html, // html body
       })
       .then((resp) => {
         console.log("Response --->", resp.response);
